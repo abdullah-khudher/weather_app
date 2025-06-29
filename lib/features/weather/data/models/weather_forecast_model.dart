@@ -15,7 +15,6 @@ class WeatherForecastModel {
 class ForecastItemModel {
   final DateTime dateTime;
   final String weatherMain;
-  final String weatherDescription;
   final String weatherIcon;
   final double temperature;
   final int humidity;
@@ -25,7 +24,6 @@ class ForecastItemModel {
   ForecastItemModel({
     required this.dateTime,
     required this.weatherMain,
-    required this.weatherDescription,
     required this.weatherIcon,
     required this.temperature,
     required this.humidity,
@@ -38,7 +36,6 @@ class ForecastItemModel {
     return ForecastItemModel(
       dateTime: DateTime.parse(json['dt_txt']),
       weatherMain: weather['main'],
-      weatherDescription: weather['description'],
       weatherIcon: weather['icon'],
       temperature: (json['main']['temp'] as num).toDouble(),
       humidity: json['main']['humidity'],
