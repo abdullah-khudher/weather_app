@@ -10,6 +10,23 @@ dependencies:
   flutter:
     sdk: flutter
 
+  ### Networking
+  dio: ^5.8.0+1
+  ### State Management
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.7
+  ### Utils
+  dartz: ^0.10.1
+  ### Formatting / Dates
+  intl: ^0.20.2
+  ### Injection
+  get_it: ^8.0.3
+  ### UI
+  cached_network_image: ^3.4.1
+  ### Environment / Secrets
+  flutter_dotenv: ^5.2.1
+  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
