@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:weather_app/features/weather/presentation/bloc/weather/weather_state.dart';
 
 class WeatherDay extends Equatable {
   final String date;
@@ -35,4 +36,17 @@ class WeatherDay extends Equatable {
     pressure,
     windSpeed,
   ];
+}
+
+extension WeatherDayExtensions on WeatherDay {
+  String displayTemp(double value, TemperatureUnit unit) {
+    final temp = unit == TemperatureUnit.celsius ? value : (value * 9 / 5) + 32;
+    return temp.toStringAsFixed(0);
+  }
+
+  String getTemperature(TemperatureUnit unit) => displayTemp(temperature, unit);
+  String getMinTemperature(TemperatureUnit unit) =>
+      displayTemp(minTemperature, unit);
+  String getMaxTemperature(TemperatureUnit unit) =>
+      displayTemp(maxTemperature, unit);
 }

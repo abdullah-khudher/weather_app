@@ -4,13 +4,20 @@ import 'package:weather_app/core/theming/colors.dart';
 import 'package:weather_app/core/theming/styles.dart';
 import 'package:weather_app/core/utils/date_utils.dart';
 import 'package:weather_app/features/weather/domain/entities/weather_day_entity.dart';
+import 'package:weather_app/features/weather/presentation/bloc/weather/weather_state.dart';
+import 'package:weather_app/features/weather/presentation/widgets/temperature_toggle_button.dart';
 
 import 'weather_icon_widget.dart';
 
 class WeatherDetailsWidget extends StatelessWidget {
   final WeatherDay day;
+  final TemperatureUnit unit;
 
-  const WeatherDetailsWidget({super.key, required this.day});
+  const WeatherDetailsWidget({
+    super.key,
+    required this.day,
+    required this.unit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,13 @@ class WeatherDetailsWidget extends StatelessWidget {
           style: TextStyles.font24BlackBold,
           textAlign: TextAlign.center,
         ),
-        Text(day.condition, style: TextStyles.font20BlackW500),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(day.condition, style: TextStyles.font20BlackW500),
+            const TemperatureToggleButton(),
+          ],
+        ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 8.h),
           child: Container(
@@ -35,7 +48,7 @@ class WeatherDetailsWidget extends StatelessWidget {
           ),
         ),
         Text(
-          '${day.temperature.toStringAsFixed(0)}°',
+          '${day.getTemperature(unit)}°',
           style: TextStyles.font56BlackBold,
           textAlign: TextAlign.center,
         ),

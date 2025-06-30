@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:weather_app/features/weather/domain/entities/weather_day_entity.dart';
 
+enum TemperatureUnit { celsius, fahrenheit }
+
 abstract class WeatherState extends Equatable {
   const WeatherState();
 
@@ -15,13 +17,30 @@ class WeatherLoading extends WeatherState {}
 class WeatherSuccess extends WeatherState {
   final List<WeatherDay> forecast;
   final int selectedIndex;
+  final TemperatureUnit unit;
 
-  const WeatherSuccess(this.forecast, {this.selectedIndex = 0});
+  const WeatherSuccess({
+    required this.forecast,
+    this.selectedIndex = 0,
+    this.unit = TemperatureUnit.celsius,
+  });
+
+  WeatherSuccess copyWith({
+    List<WeatherDay>? forecast,
+    int? selectedIndex,
+    TemperatureUnit? unit,
+  }) {
+    return WeatherSuccess(
+      forecast: forecast ?? this.forecast,
+      selectedIndex: selectedIndex ?? this.selectedIndex,
+      unit: unit ?? this.unit,
+    );
+  }
 
   WeatherDay get selectedDay => forecast[selectedIndex];
 
   @override
-  List<Object?> get props => [forecast, selectedIndex];
+  List<Object?> get props => [forecast, selectedIndex, unit];
 }
 
 class WeatherFailure extends WeatherState {
