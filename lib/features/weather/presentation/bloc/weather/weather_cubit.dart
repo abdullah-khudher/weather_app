@@ -18,4 +18,11 @@ class WeatherCubit extends Cubit<WeatherState> {
       (weatherDays) => emit(WeatherSuccess(weatherDays)),
     );
   }
+
+  void selectDay(int index) {
+    final currentState = state;
+    if (currentState is WeatherSuccess) {
+      emit(WeatherSuccess(currentState.forecast, selectedIndex: index));
+    }
+  }
 }
