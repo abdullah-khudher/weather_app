@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/features/weather/domain/entities/weather_day_entity.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather/weather_cubit.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather/weather_state.dart';
@@ -23,24 +22,20 @@ class WeatherDayListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: isLandscape ? null : 120.h,
-      width: isLandscape ? 100.w : null,
-      child: ListView.builder(
-        scrollDirection: isLandscape ? Axis.vertical : Axis.horizontal,
-        itemCount: days.length,
-        itemBuilder: (context, index) {
-          final day = days[index];
-          return WeatherDayItemWidget(
-            unit: unit,
-            day: day,
-            isSelected: index == selectedIndex,
-            onTap: () {
-              context.read<WeatherCubit>().selectDay(index);
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      scrollDirection: isLandscape ? Axis.vertical : Axis.horizontal,
+      itemCount: days.length,
+      itemBuilder: (context, index) {
+        final day = days[index];
+        return WeatherDayItemWidget(
+          unit: unit,
+          day: day,
+          isSelected: index == selectedIndex,
+          onTap: () {
+            context.read<WeatherCubit>().selectDay(index);
+          },
+        );
+      },
     );
   }
 }

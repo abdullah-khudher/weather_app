@@ -29,19 +29,44 @@ class WeatherSeccessWidget extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () =>
           context.read<WeatherCubit>().getFiveDayForecast(berlinLat, berlinLon),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        child: isLandscape
-            ? Row(
+      child: isLandscape
+          ? SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: WeatherDetailsWidget(day: selectedDay, unit: unit),
                   ),
                   SizedBox(width: 16.w),
+                  Expanded(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: WeatherDayListWidget(
+                        isLandscape: true,
+                        unit: unit,
+                        days: days,
+                        selectedIndex: selectedIndex,
+                        onDaySelected: (index) {
+                          context.read<WeatherCubit>().selectDay(index);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: Column(
+                children: [
+                  SizedBox(height: 16.h),
+                  WeatherDetailsWidget(day: selectedDay, unit: unit),
+                  SizedBox(height: 80.h),
                   SizedBox(
-                    width: 120.w,
+                    height: 120.h,
                     child: WeatherDayListWidget(
-                      isLandscape: true,
+                      isLandscape: false,
                       unit: unit,
                       days: days,
                       selectedIndex: selectedIndex,
@@ -51,24 +76,8 @@ class WeatherSeccessWidget extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
-            : ListView(
-                children: [
-                  SizedBox(height: 16.h),
-                  WeatherDetailsWidget(day: selectedDay, unit: unit),
-                  SizedBox(height: 100.h),
-                  WeatherDayListWidget(
-                    isLandscape: false,
-                    unit: unit,
-                    days: days,
-                    selectedIndex: selectedIndex,
-                    onDaySelected: (index) {
-                      context.read<WeatherCubit>().selectDay(index);
-                    },
-                  ),
-                ],
               ),
-      ),
+            ),
     );
   }
 }

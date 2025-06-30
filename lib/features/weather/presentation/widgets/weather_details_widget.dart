@@ -52,17 +52,17 @@ class WeatherDetailsWidget extends StatelessWidget {
           style: TextStyles.font56BlackBold,
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 8.h),
         Text(
           'Humidity: ${day.humidity.toStringAsFixed(0)}%',
           style: TextStyles.font20BlackW500,
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 8.h),
         Text(
           'Pressure: ${day.pressure.toStringAsFixed(0)} hPa',
           style: TextStyles.font20BlackW500,
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 8.h),
         Text(
           'Wind: ${day.windSpeed.toStringAsFixed(1)} km/h',
           style: TextStyles.font20BlackW500,
