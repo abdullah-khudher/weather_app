@@ -13,11 +13,12 @@ class WeatherDayItemWidget extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   final TemperatureUnit unit;
+  final bool isLandscape;
 
   const WeatherDayItemWidget({
     super.key,
     required this.unit,
-
+    this.isLandscape = false,
     required this.day,
     required this.isSelected,
     required this.onTap,
@@ -28,7 +29,8 @@ class WeatherDayItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 80.w,
+        width: 100.w,
+        // height: 300.h,
         margin: EdgeInsets.all(8.w),
         padding: EdgeInsets.all(8.w),
         decoration: BoxDecoration(
@@ -44,8 +46,9 @@ class WeatherDayItemWidget extends StatelessWidget {
             ),
             WeatherIconWidget(
               iconCode: day.iconCode,
-              height: 40.h,
+              height: isLandscape ? 100.h : 50.h,
               width: 40.w,
+              fit: BoxFit.cover,
             ),
             Text(
               '${day.getMinTemperature(unit)}/${day.getMaxTemperature(unit)}°',

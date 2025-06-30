@@ -13,10 +13,10 @@ class TemperatureToggleButton extends StatelessWidget {
       builder: (context, state) {
         if (state is WeatherSuccess) {
           final isCelsius = state.unit == TemperatureUnit.celsius;
-          return IconButton(
-            icon: Text(
-              isCelsius ? '°C' : '°F',
-              style: TextStyles.font20BlackW500,
+          return ElevatedButton(
+            child: Text(
+              isCelsius ? 'Change to °F' : 'Change to °C',
+              style: TextStyles.font16BlackNormal,
             ),
             onPressed: () {
               context.read<WeatherCubit>().toggleTemperatureUnit();

@@ -26,17 +26,22 @@ class WeatherSeccessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+
     return RefreshIndicator(
       onRefresh: () =>
           context.read<WeatherCubit>().getFiveDayForecast(berlinLat, berlinLon),
-      child: isLandscape
-          ? SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Row(
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: isLandscape
+            ? Row(
                 children: [
                   Expanded(
                     flex: 2,
-                    child: WeatherDetailsWidget(day: selectedDay, unit: unit),
+                    child: WeatherDetailsWidget(
+                      day: selectedDay,
+                      unit: unit,
+                      isLandscape: true,
+                    ),
                   ),
                   SizedBox(width: 16.w),
                   Expanded(
@@ -54,30 +59,30 @@ class WeatherSeccessWidget extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            )
-          : Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: Column(
-                children: [
-                  SizedBox(height: 16.h),
-                  WeatherDetailsWidget(day: selectedDay, unit: unit),
-                  SizedBox(height: 80.h),
-                  SizedBox(
-                    height: 120.h,
-                    child: WeatherDayListWidget(
-                      isLandscape: false,
-                      unit: unit,
-                      days: days,
-                      selectedIndex: selectedIndex,
-                      onDaySelected: (index) {
-                        context.read<WeatherCubit>().selectDay(index);
-                      },
+              )
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 16.h),
+                    WeatherDetailsWidget(day: selectedDay, unit: unit),
+                    SizedBox(height: 50.h),
+                    SizedBox(
+                      height: 140.h,
+                      child: WeatherDayListWidget(
+                        isLandscape: false,
+                        unit: unit,
+                        days: days,
+                        selectedIndex: selectedIndex,
+                        onDaySelected: (index) {
+                          context.read<WeatherCubit>().selectDay(index);
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 }

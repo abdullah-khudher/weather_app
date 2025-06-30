@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weather_app/core/theming/colors.dart';
 import 'package:weather_app/core/theming/styles.dart';
 import 'package:weather_app/core/utils/date_utils.dart';
 import 'package:weather_app/features/weather/domain/entities/weather_day_entity.dart';
@@ -12,11 +11,13 @@ import 'weather_icon_widget.dart';
 class WeatherDetailsWidget extends StatelessWidget {
   final WeatherDay day;
   final TemperatureUnit unit;
+  final bool isLandscape;
 
   const WeatherDetailsWidget({
     super.key,
     required this.day,
     required this.unit,
+    this.isLandscape = false,
   });
 
   @override
@@ -36,22 +37,47 @@ class WeatherDetailsWidget extends StatelessWidget {
             const TemperatureToggleButton(),
           ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
-          child: Container(
-            color: ColorsManager.mainBlue,
-            child: WeatherIconWidget(
-              iconCode: day.iconCode,
-              height: 200.h,
-              width: double.infinity,
-            ),
-          ),
-        ),
-        Text(
-          '${day.getTemperature(unit)}°',
-          style: TextStyles.font56BlackBold,
-          textAlign: TextAlign.center,
-        ),
+        isLandscape
+            ? Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
+                        child: WeatherIconWidget(
+                          iconCode: day.iconCode,
+                          height: 250.h,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${day.getTemperature(unit)}°',
+                        style: TextStyles.font56BlackBold,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Column(
+                children: [
+                  WeatherIconWidget(
+                    iconCode: day.iconCode,
+                    height: 200.h,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  Text(
+                    '${day.getTemperature(unit)}°',
+                    style: TextStyles.font56BlackBold,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
         SizedBox(height: 8.h),
         Text(
           'Humidity: ${day.humidity.toStringAsFixed(0)}%',

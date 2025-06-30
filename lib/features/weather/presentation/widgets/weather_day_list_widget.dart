@@ -28,6 +28,7 @@ class WeatherDayListWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final day = days[index];
         return WeatherDayItemWidget(
+          isLandscape: isLandscape,
           unit: unit,
           day: day,
           isSelected: index == selectedIndex,
