@@ -15,7 +15,9 @@ class WeatherCubit extends Cubit<WeatherState> {
 
     result.fold(
       (failure) => emit(WeatherFailure(failure.errMessage)),
-      (weatherDays) => emit(WeatherSuccess(forecast: weatherDays)),
+      (weatherDays) => emit(
+        WeatherSuccess(forecast: weatherDays, unit: TemperatureUnit.celsius),
+      ),
     );
   }
 
@@ -23,7 +25,11 @@ class WeatherCubit extends Cubit<WeatherState> {
     final currentState = state;
     if (currentState is WeatherSuccess) {
       emit(
-        WeatherSuccess(selectedIndex: index, forecast: currentState.forecast),
+        WeatherSuccess(
+          selectedIndex: index,
+          forecast: currentState.forecast,
+          unit: currentState.unit,
+        ),
       );
     }
   }

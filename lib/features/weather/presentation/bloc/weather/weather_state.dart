@@ -22,7 +22,7 @@ class WeatherSuccess extends WeatherState {
   const WeatherSuccess({
     required this.forecast,
     this.selectedIndex = 0,
-    this.unit = TemperatureUnit.celsius,
+    required this.unit,
   });
 
   WeatherSuccess copyWith({
