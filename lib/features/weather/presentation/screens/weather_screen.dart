@@ -13,31 +13,27 @@ class WeatherScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () =>
-              context.read<WeatherCubit>().getFiveDayForecast(48.8566, 2.3522),
-          child: BlocBuilder<WeatherCubit, WeatherState>(
-            builder: (context, state) {
-              if (state is WeatherLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state is WeatherFailure) {
-                return const WeatherErrorWidget();
-              }
-              if (state is WeatherSuccess) {
-                final List<WeatherDay> days = state.forecast;
-                final WeatherDay selectedDay = days[state.selectedIndex];
+        child: BlocBuilder<WeatherCubit, WeatherState>(
+          builder: (context, state) {
+            if (state is WeatherLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is WeatherFailure) {
+              return const WeatherErrorWidget();
+            }
+            if (state is WeatherSuccess) {
+              final List<WeatherDay> days = state.forecast;
+              final WeatherDay selectedDay = days[state.selectedIndex];
 
-                return WeatherSeccessWidget(
-                  days: days,
-                  selectedDay: selectedDay,
-                  selectedIndex: state.selectedIndex,
-                );
-              }
+              return WeatherSeccessWidget(
+                days: days,
+                selectedDay: selectedDay,
+                selectedIndex: state.selectedIndex,
+              );
+            }
 
-              return const SizedBox();
-            },
-          ),
+            return const SizedBox();
+          },
         ),
       ),
     );

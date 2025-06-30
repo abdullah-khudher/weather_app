@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weather_app/core/constants/location_constants.dart';
 import 'package:weather_app/features/weather/domain/repository/weather_repository.dart';
 import 'package:weather_app/features/weather/presentation/bloc/weather/weather_cubit.dart';
 import 'package:weather_app/features/weather/presentation/screens/weather_screen.dart';
@@ -26,7 +27,7 @@ class MainApp extends StatelessWidget {
         home: BlocProvider(
           create: (context) =>
               WeatherCubit(sl<WeatherRepository>())
-                ..getFiveDayForecast(52.5200, 13.4050),
+                ..getFiveDayForecast(berlinLat, berlinLon),
           child: const WeatherScreen(),
         ),
       ),
