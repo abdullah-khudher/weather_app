@@ -8,13 +8,13 @@ import 'package:weather_app/features/weather/presentation/bloc/weather/weather_s
 import 'package:weather_app/features/weather/presentation/widgets/weather_day_list_widget.dart';
 import 'package:weather_app/features/weather/presentation/widgets/weather_details_widget.dart';
 
-class WeatherSeccessWidget extends StatelessWidget {
+class WeatherSuccessWidget extends StatelessWidget {
   final List<WeatherDay> days;
   final WeatherDay selectedDay;
   final int selectedIndex;
   final TemperatureUnit unit;
 
-  const WeatherSeccessWidget({
+  const WeatherSuccessWidget({
     super.key,
     required this.days,
     required this.selectedDay,

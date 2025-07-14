@@ -20,47 +20,58 @@ class WeatherRepositoryImpl implements WeatherRepository {
   ) async {
     try {
       final rawData = await remoteDataSource.getForecast(lat, lon);
+      final forecastList = rawData.forecasts;
+      final groupedByDate = groupForecastsByDate(forecastList);
+      final result = buildWeatherDays(groupedByDate);
 
-      final List<ForecastItemModel> forecastList =
-          WeatherForecastModel.fromJson(rawData).forecasts;
-
-      final Map<String, List<ForecastItemModel>> groupedByDate = {};
-
-      for (final item in forecastList) {
-        final date = item.dateTime.toIso8601String().split('T')[0];
-        groupedByDate.putIfAbsent(date, () => []).add(item);
-      }
-
-      final List<WeatherDay> result = groupedByDate.entries.map((entry) {
-        final date = entry.key;
-        final items = entry.value;
-
-        final temps = items.map((e) => e.temperature).toList();
-        final minTemp = temps.reduce(min).toDouble();
-        final maxTemp = temps.reduce(max).toDouble();
-
-        final middayItem = items.firstWhere(
-          (e) => e.dateTime.hour == 12,
-          orElse: () => items[0],
-        );
-
-        return WeatherDay(
-          date: date,
-          condition: middayItem.weatherMain,
-          iconCode: middayItem.weatherIcon,
-          temperature: middayItem.temperature,
-          humidity: middayItem.humidity.toDouble(),
-          pressure: middayItem.pressure.toDouble(),
-          windSpeed: middayItem.windSpeed,
-          minTemperature: minTemp,
-          maxTemperature: maxTemp,
-        );
-      }).toList();
       return right(result);
     } on DioException catch (e) {
       return left(ServerFailure.fromDioError(e));
     } catch (e) {
       return left(ServerFailure(e.toString()));
     }
+  }
+
+  Map<String, List<ForecastItemModel>> groupForecastsByDate(
+    List<ForecastItemModel> forecasts,
+  ) {
+    final map = <String, List<ForecastItemModel>>{};
+    for (final item in forecasts) {
+      final date = item.dateTime.toIso8601String().split('T')[0];
+      map.putIfAbsent(date, () => []).add(item);
+    }
+    return map;
+  }
+
+  List<WeatherDay> buildWeatherDays(
+    Map<String, List<ForecastItemModel>> groupedByDate,
+  ) {
+    final List<WeatherDay> list = groupedByDate.entries.map((entry) {
+      final date = entry.key;
+      final items = entry.value;
+
+      final temps = items.map((e) => e.temperature).toList();
+      final minTemp = temps.reduce(min).toDouble();
+      final maxTemp = temps.reduce(max).toDouble();
+
+      final middayItem = items.firstWhere(
+        (e) => e.dateTime.hour == 12,
+        orElse: () => items[0],
+      );
+
+      return WeatherDay(
+        date: date,
+        condition: middayItem.weatherMain,
+        iconCode: middayItem.weatherIcon,
+        temperature: middayItem.temperature,
+        humidity: middayItem.humidity.toDouble(),
+        pressure: middayItem.pressure.toDouble(),
+        windSpeed: middayItem.windSpeed,
+        minTemperature: minTemp,
+        maxTemperature: maxTemp,
+      );
+    }).toList();
+
+    return list;
   }
 }

@@ -24,7 +24,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<WeatherRemoteDataSource>(
     () => WeatherRemoteDataSourceImpl(
-      api: sl<ApiService>(),
+      apiService: sl<ApiService>(),
       apiKey: dotenv.get('OPENWEATHERMAP_API_KEY', fallback: ''),
     ),
   );

@@ -26,7 +26,7 @@ class WeatherScreen extends StatelessWidget {
               final WeatherDay selectedDay = days[state.selectedIndex];
               final unit = state.unit;
 
-              return WeatherSeccessWidget(
+              return WeatherSuccessWidget(
                 unit: unit,
                 days: days,
                 selectedDay: selectedDay,

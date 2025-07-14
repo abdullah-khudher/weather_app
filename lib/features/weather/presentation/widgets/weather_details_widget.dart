@@ -33,8 +33,10 @@ class WeatherDetailsWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(day.condition, style: TextStyles.font20BlackW500),
-            const TemperatureToggleButton(),
+            Flexible(
+              child: Text(day.condition, style: TextStyles.font20BlackW500),
+            ),
+            Flexible(child: const TemperatureToggleButton()),
           ],
         ),
         isLandscape
